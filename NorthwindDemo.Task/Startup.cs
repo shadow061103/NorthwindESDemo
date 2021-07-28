@@ -17,6 +17,7 @@ using Microsoft.OpenApi.Models;
 using NorthwindDemo.Repository.Implements;
 using NorthwindDemo.Repository.Interfaces;
 using NorthwindDemo.Repository.Models.Context;
+using NorthwindDemo.Task.Infrastructure.Extensions;
 using NorthwindDemo.Task.Infrastructure.HangfireMisc;
 using System;
 using System.Collections.Generic;
@@ -108,6 +109,8 @@ namespace NorthwindDemo.Task
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddHttpContextAccessor();
+
+            services.AddElasticsearch(Configuration);
 
             // AutoMapper
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
