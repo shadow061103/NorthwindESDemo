@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\Debug\netcoreapp3.1\NorthwindDemo.Service.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NorthwindDemo.Common\NorthwindDemo.Common.csproj" />
+    <ProjectReference Include="..\NorthwindDemo.Repository\NorthwindDemo.Repository.csproj" />
+  </ItemGroup>
+
+</Project>
