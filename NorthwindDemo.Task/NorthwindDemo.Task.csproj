@@ -22,5 +22,11 @@
     <ProjectReference Include="..\NorthwindDemo.Service\NorthwindDemo.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="coreprofiler.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 
 </Project>

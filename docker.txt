@@ -4,3 +4,7 @@ docker run --rm -d -e SA_PASSWORD=1q2w3e4r5t_ -e ACCEPT_EULA=Y -ti -p 56789:1433
 127.0.0.1,56789
 sa
 P@ssw0rd
+
+
+專案跟目錄執行
+docker-compose up -d

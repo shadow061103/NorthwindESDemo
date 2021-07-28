@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using NorthwindDemo.Common.Attribute;
 using NorthwindDemo.Repository.Interfaces;
 using NorthwindDemo.Repository.Models.Entities;
 using System;
@@ -24,6 +25,7 @@ namespace NorthwindDemo.Task.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [CoreProfilingAsyncAttribute("TestController.Get")]
         public IActionResult Get()
         {
           var temp= _uow.GetRepository<Employees>().Get();

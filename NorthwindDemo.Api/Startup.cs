@@ -1,3 +1,4 @@
+using CoreProfiler.Web;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -84,10 +85,14 @@ namespace NorthwindDemo.Api
 
             app.UseAuthorization();
 
+            app.UseCoreProfiler(true);
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+
+           
         }
     }
 }

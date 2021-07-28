@@ -9,8 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AspectInjector" Version="2.5.0" />
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+    <PackageReference Include="coreprofiler" Version="1.1.4" />
+    <PackageReference Include="CoreProfiler.Web" Version="1.1.4" />
   </ItemGroup>
 
 </Project>

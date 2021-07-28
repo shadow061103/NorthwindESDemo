@@ -1,3 +1,4 @@
+using CoreProfiler.Web;
 using Hangfire;
 using Hangfire.Console;
 using Hangfire.Dashboard;
@@ -181,10 +182,14 @@ namespace NorthwindDemo.Task
 
             app.UseAuthorization();
 
+            app.UseCoreProfiler(true);
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+
+            
         }
     }
 }
