@@ -18,5 +18,9 @@
     <ProjectReference Include="..\NorthwindDemo.Service\NorthwindDemo.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+
 
 </Project>

@@ -2,11 +2,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using NorthwindDemo.Repository.Models.Context;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -17,6 +19,8 @@ namespace NorthwindDemo.Task
 {
     public class Startup
     {
+        public static readonly ILoggerFactory _loggerFactory = LoggerFactory.Create(builder => { builder.AddConsole(); });
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -50,6 +54,12 @@ namespace NorthwindDemo.Task
             });
 
             #endregion swagger
+           
+
+            services.AddEntityFrameworkSqlServer()
+                    .AddDbContext<DbContext, NorthwindContext>(options => options
+                     .UseLoggerFactory(_loggerFactory)
+                     .UseSqlServer(Configuration.GetConnectionString("Northwind")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
