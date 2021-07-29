@@ -1,13 +1,16 @@
 using CoreProfiler.Web;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using NorthwindDemo.Api.Infrastructure.Extensions;
 using NorthwindDemo.Repository.Implements;
 using NorthwindDemo.Repository.Interfaces;
+using NorthwindDemo.Repository.Models.Context;
 using NorthwindDemo.Service.Implements;
 using NorthwindDemo.Service.Interfaces;
 using System;
@@ -19,6 +22,7 @@ namespace NorthwindDemo.Api
 {
     public class Startup
     {
+        public static readonly ILoggerFactory _loggerFactory = LoggerFactory.Create(builder => { builder.AddConsole(); });
         public IConfiguration Configuration { get; }
 
         public Startup(IConfiguration configuration)
@@ -63,10 +67,18 @@ namespace NorthwindDemo.Api
 
             // AutoMapper
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddEntityFrameworkSqlServer()
+                   .AddDbContext<DbContext, NorthwindContext>(options => options
+                    .UseLoggerFactory(_loggerFactory)
+                    .UseSqlServer(Configuration.GetConnectionString("Northwind")));
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddHttpContextAccessor();
 
             services.AddElasticsearch(Configuration);
 
             //DI
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IOrderServices, OrderServices>();
             services.AddScoped<IOrderESRepository, OrderESRepository>();
             services.AddScoped<IOrderESService, OrderESService>();

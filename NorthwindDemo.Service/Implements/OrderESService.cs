@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using NorthwindDemo.Common.Attribute;
 using NorthwindDemo.Repository.Interfaces;
 using NorthwindDemo.Repository.Models.ES;
 using NorthwindDemo.Service.Interfaces;
@@ -21,6 +22,12 @@ namespace NorthwindDemo.Service.Implements
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// 新增一筆訂單到ES
+        /// </summary>
+        /// <param name="ordersDto">The orders dto.</param>
+        /// <returns></returns>
+        [CoreProfilingAsync("OrderESService.Get")]
         public async Task<bool> Add(IEnumerable<OrdersDto> ordersDto)
         {
             if (ordersDto.Any().Equals(false))
@@ -33,6 +40,12 @@ namespace NorthwindDemo.Service.Implements
             return await _orderESRepository.BulkInsert(orders);
         }
 
+        /// <summary>
+        /// 更新訂單到ES
+        /// </summary>
+        /// <param name="ordersDto">The orders dto.</param>
+        /// <returns></returns>
+        [CoreProfilingAsync("OrderESService.Update")]
         public async Task<bool> Update(IEnumerable<OrdersDto> ordersDto)
         {
             if (ordersDto.Any().Equals(false))
@@ -45,6 +58,12 @@ namespace NorthwindDemo.Service.Implements
             return await _orderESRepository.BulkUpdate(orders);
         }
 
+        /// <summary>
+        /// 刪除訂單ES
+        /// </summary>
+        /// <param name="orderIds">The order ids.</param>
+        /// <returns></returns>
+        [CoreProfilingAsync("OrderESService.Delete")]
         public async Task<bool> Delete(IEnumerable<int> orderIds)
         {
             if (orderIds.Any().Equals(false))

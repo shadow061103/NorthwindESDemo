@@ -4,7 +4,7 @@ using NorthwindDemo.Service.Interfaces;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NorthwindDemo.Task.Controllers
+namespace NorthwindDemo.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -22,7 +22,7 @@ namespace NorthwindDemo.Task.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [CoreProfilingAsyncAttribute("TestController.Get")]
+        [CoreProfilingAsync("TestController.Get")]
         public async Task<IActionResult> Get()
         {
             var temp = await _orderServices.Get();

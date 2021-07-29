@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using NorthwindDemo.Common.Attribute;
 using NorthwindDemo.Repository.Interfaces;
 using NorthwindDemo.Repository.Models.Entities;
 using NorthwindDemo.Service.Interfaces;
@@ -35,6 +36,7 @@ namespace NorthwindDemo.Service.Implements
         /// 取得訂單列表
         /// </summary>
         /// <returns></returns>
+        [CoreProfilingAsync("OrderServices.Get")]
         public async Task<IEnumerable<OrdersDto>> Get()
         {
             var orders = this._uow.GetRepository<Orders>().Get(
@@ -47,12 +49,6 @@ namespace NorthwindDemo.Service.Implements
             .Include(x => x.OrderDetails).ThenInclude(x => x.Product).ThenInclude(x => x.Category))
                 .AsEnumerable();
 
-            //var orderDetails = this._uow.GetRepository<OrderDetails>().Get(
-            //    include:
-            //    c => c.Include(x => x.Product).ThenInclude(x => x.Supplier)
-            //    .Include(x => x.Product).ThenInclude(x => x.Category)).AsEnumerable();
-
-            //return orders;
             var orderDtos = this._mapper.Map<IEnumerable<OrdersDto>>(orders);
 
             return orderDtos;
