@@ -6,8 +6,6 @@ using Hangfire.SqlServer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,10 +20,8 @@ using NorthwindDemo.Service.Interfaces;
 using NorthwindDemo.Task.Infrastructure.Extensions;
 using NorthwindDemo.Task.Infrastructure.HangfireMisc;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace NorthwindDemo.Task
 {
@@ -33,13 +29,13 @@ namespace NorthwindDemo.Task
     {
         public static readonly ILoggerFactory _loggerFactory = LoggerFactory.Create(builder => { builder.AddConsole(); });
 
+        public IConfiguration Configuration { get; }
         private HangfireSettings HangfireSettings { get; set; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
-
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -69,7 +65,7 @@ namespace NorthwindDemo.Task
             #endregion swagger
 
             #region Hangfire
-            
+
             var hangfireConnection = Configuration.GetConnectionString("Hangfire");
             // HangfireSettings
             var hangfireSettings = new HangfireSettings();
@@ -102,7 +98,7 @@ namespace NorthwindDemo.Task
                 x.UseDashboardMetric(DashboardMetrics.SucceededCount);
             });
 
-            #endregion
+            #endregion Hangfire
 
             services.AddEntityFrameworkSqlServer()
                     .AddDbContext<DbContext, NorthwindContext>(options => options
@@ -145,6 +141,7 @@ namespace NorthwindDemo.Task
             #endregion swagger
 
             #region Hangfire
+
             var queues = this.HangfireSettings.Queues.Any()
                 ? this.HangfireSettings.Queues
                 : new[] { "default" };
@@ -182,7 +179,7 @@ namespace NorthwindDemo.Task
                 serviceProvider.GetService<IHangfireJobTrigger>().OnStart();
             }
 
-            #endregion
+            #endregion Hangfire
 
             app.UseHttpsRedirection();
 
@@ -196,8 +193,6 @@ namespace NorthwindDemo.Task
             {
                 endpoints.MapControllers();
             });
-
-            
         }
     }
 }

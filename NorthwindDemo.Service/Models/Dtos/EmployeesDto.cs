@@ -14,9 +14,6 @@ namespace NorthwindDemo.Service.Models.Dtos
         public DateTime? HireDate { get; set; }
         public string HomePhone { get; set; }
         public string LastName { get; set; }
-        public string Notes { get; set; }
-        public byte[] Photo { get; set; }
-        public string PhotoPath { get; set; }
         public string PostalCode { get; set; }
         public string Region { get; set; }
         public int? ReportsTo { get; set; }

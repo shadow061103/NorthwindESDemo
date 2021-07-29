@@ -1,16 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NorthwindDemo.Common.Attribute;
 using NorthwindDemo.Service.Interfaces;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace NorthwindDemo.Task.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class TestController : ControllerBase
+    public class OrdersController : ControllerBase
     {
         private readonly IOrderServices _orderServices;
 
-        public TestController(IOrderServices orderServices)
+        public OrdersController(IOrderServices orderServices)
         {
             _orderServices = orderServices;
         }
@@ -21,10 +23,10 @@ namespace NorthwindDemo.Task.Controllers
         /// <returns></returns>
         [HttpGet]
         [CoreProfilingAsyncAttribute("TestController.Get")]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            var temp = _orderServices.Get();
-            return Ok(temp);
+            var temp = await _orderServices.Get();
+            return Ok(temp.FirstOrDefault());
         }
     }
 }

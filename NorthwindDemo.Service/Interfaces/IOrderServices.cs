@@ -1,4 +1,4 @@
-﻿using NorthwindDemo.Repository.Models.Entities;
+﻿using NorthwindDemo.Service.Models.Dtos;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -10,6 +10,6 @@ namespace NorthwindDemo.Service.Interfaces
         /// 取得訂單列表
         /// </summary>
         /// <returns></returns>
-        Task<IEnumerable<Orders>> Get();
+        Task<IEnumerable<OrdersDto>> Get();
     }
 }

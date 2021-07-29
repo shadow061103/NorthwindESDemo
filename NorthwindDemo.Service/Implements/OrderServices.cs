@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using NorthwindDemo.Repository.Interfaces;
 using NorthwindDemo.Repository.Models.Entities;
 using NorthwindDemo.Service.Interfaces;
+using NorthwindDemo.Service.Models.Dtos;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -34,24 +35,27 @@ namespace NorthwindDemo.Service.Implements
         /// 取得訂單列表
         /// </summary>
         /// <returns></returns>
-        public async Task<IEnumerable<Orders>> Get()
+        public async Task<IEnumerable<OrdersDto>> Get()
         {
             var orders = this._uow.GetRepository<Orders>().Get(
                 include:
                 c =>
             c.Include(x => x.Customer)
             .Include(x => x.Employee)
-            .Include(x => x.ShipViaNavigation)).AsEnumerable();
+            .Include(x => x.ShipViaNavigation)
+            .Include(x => x.OrderDetails).ThenInclude(x => x.Product).ThenInclude(x => x.Supplier)
+            .Include(x => x.OrderDetails).ThenInclude(x => x.Product).ThenInclude(x => x.Category))
+                .AsEnumerable();
 
             //var orderDetails = this._uow.GetRepository<OrderDetails>().Get(
             //    include:
             //    c => c.Include(x => x.Product).ThenInclude(x => x.Supplier)
             //    .Include(x => x.Product).ThenInclude(x => x.Category)).AsEnumerable();
 
-            return orders;
-            //var orderDtos = this._mapper.Map<IEnumerable<OrdersDto>>(orders);
+            //return orders;
+            var orderDtos = this._mapper.Map<IEnumerable<OrdersDto>>(orders);
 
-            // return orderDtos;
+            return orderDtos;
         }
     }
 }
