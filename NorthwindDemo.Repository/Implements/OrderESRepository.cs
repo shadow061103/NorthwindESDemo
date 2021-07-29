@@ -154,12 +154,20 @@ namespace NorthwindDemo.Repository.Implements
                 Query = query,
                 Sort = EsSortHelper.GetOrder(OrderField.Default),
                 From = 0,
-                Size = 5000
+                Size = 5000,
+                Scroll = "1m"
             };
 
             var searchResponse = await _elasticClient.SearchAsync<OrdersESModel>(s => searchRequest);
 
-            orders.AddRange(searchResponse.Documents);
+            //超過5000筆才需要用Scroll 一般用上面的就可以
+            while (searchResponse.Documents.Any())
+            {
+                orders.AddRange(searchResponse.Documents);
+                searchResponse = await _elasticClient.ScrollAsync<OrdersESModel>("1m", searchResponse.ScrollId);
+            }
+
+            await _elasticClient.ClearScrollAsync(new ClearScrollRequest(searchResponse.ScrollId));
 
             return orders;
         }
