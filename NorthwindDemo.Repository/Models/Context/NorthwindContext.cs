@@ -19,18 +19,13 @@ namespace NorthwindDemo.Repository.Models.Context
         }
 
         public virtual DbSet<Categories> Categories { get; set; }
-        public virtual DbSet<CustomerCustomerDemo> CustomerCustomerDemo { get; set; }
-        public virtual DbSet<CustomerDemographics> CustomerDemographics { get; set; }
         public virtual DbSet<Customers> Customers { get; set; }
-        public virtual DbSet<EmployeeTerritories> EmployeeTerritories { get; set; }
         public virtual DbSet<Employees> Employees { get; set; }
         public virtual DbSet<OrderDetails> OrderDetails { get; set; }
         public virtual DbSet<Orders> Orders { get; set; }
         public virtual DbSet<Products> Products { get; set; }
-        public virtual DbSet<Region> Region { get; set; }
         public virtual DbSet<Shippers> Shippers { get; set; }
         public virtual DbSet<Suppliers> Suppliers { get; set; }
-        public virtual DbSet<Territories> Territories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -51,47 +46,6 @@ namespace NorthwindDemo.Repository.Models.Context
                 entity.Property(e => e.Description).HasColumnType("ntext");
 
                 entity.Property(e => e.Picture).HasColumnType("image");
-            });
-
-            modelBuilder.Entity<CustomerCustomerDemo>(entity =>
-            {
-                entity.HasKey(e => new { e.CustomerId, e.CustomerTypeId })
-                    .IsClustered(false);
-
-                entity.Property(e => e.CustomerId)
-                    .HasMaxLength(5)
-                    .HasColumnName("CustomerID")
-                    .IsFixedLength(true);
-
-                entity.Property(e => e.CustomerTypeId)
-                    .HasMaxLength(10)
-                    .HasColumnName("CustomerTypeID")
-                    .IsFixedLength(true);
-
-                entity.HasOne(d => d.Customer)
-                    .WithMany(p => p.CustomerCustomerDemo)
-                    .HasForeignKey(d => d.CustomerId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_CustomerCustomerDemo_Customers");
-
-                entity.HasOne(d => d.CustomerType)
-                    .WithMany(p => p.CustomerCustomerDemo)
-                    .HasForeignKey(d => d.CustomerTypeId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_CustomerCustomerDemo");
-            });
-
-            modelBuilder.Entity<CustomerDemographics>(entity =>
-            {
-                entity.HasKey(e => e.CustomerTypeId)
-                    .IsClustered(false);
-
-                entity.Property(e => e.CustomerTypeId)
-                    .HasMaxLength(10)
-                    .HasColumnName("CustomerTypeID")
-                    .IsFixedLength(true);
-
-                entity.Property(e => e.CustomerDesc).HasColumnType("ntext");
             });
 
             modelBuilder.Entity<Customers>(entity =>
@@ -132,30 +86,6 @@ namespace NorthwindDemo.Repository.Models.Context
                 entity.Property(e => e.PostalCode).HasMaxLength(10);
 
                 entity.Property(e => e.Region).HasMaxLength(15);
-            });
-
-            modelBuilder.Entity<EmployeeTerritories>(entity =>
-            {
-                entity.HasKey(e => new { e.EmployeeId, e.TerritoryId })
-                    .IsClustered(false);
-
-                entity.Property(e => e.EmployeeId).HasColumnName("EmployeeID");
-
-                entity.Property(e => e.TerritoryId)
-                    .HasMaxLength(20)
-                    .HasColumnName("TerritoryID");
-
-                entity.HasOne(d => d.Employee)
-                    .WithMany(p => p.EmployeeTerritories)
-                    .HasForeignKey(d => d.EmployeeId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_EmployeeTerritories_Employees");
-
-                entity.HasOne(d => d.Territory)
-                    .WithMany(p => p.EmployeeTerritories)
-                    .HasForeignKey(d => d.TerritoryId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_EmployeeTerritories_Territories");
             });
 
             modelBuilder.Entity<Employees>(entity =>
@@ -360,21 +290,6 @@ namespace NorthwindDemo.Repository.Models.Context
                     .HasConstraintName("FK_Products_Suppliers");
             });
 
-            modelBuilder.Entity<Region>(entity =>
-            {
-                entity.HasKey(e => e.RegionId)
-                    .IsClustered(false);
-
-                entity.Property(e => e.RegionId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("RegionID");
-
-                entity.Property(e => e.RegionDescription)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .IsFixedLength(true);
-            });
-
             modelBuilder.Entity<Shippers>(entity =>
             {
                 entity.HasKey(e => e.ShipperId);
@@ -421,29 +336,6 @@ namespace NorthwindDemo.Repository.Models.Context
                 entity.Property(e => e.PostalCode).HasMaxLength(10);
 
                 entity.Property(e => e.Region).HasMaxLength(15);
-            });
-
-            modelBuilder.Entity<Territories>(entity =>
-            {
-                entity.HasKey(e => e.TerritoryId)
-                    .IsClustered(false);
-
-                entity.Property(e => e.TerritoryId)
-                    .HasMaxLength(20)
-                    .HasColumnName("TerritoryID");
-
-                entity.Property(e => e.RegionId).HasColumnName("RegionID");
-
-                entity.Property(e => e.TerritoryDescription)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .IsFixedLength(true);
-
-                entity.HasOne(d => d.Region)
-                    .WithMany(p => p.Territories)
-                    .HasForeignKey(d => d.RegionId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Territories_Region");
             });
 
             OnModelCreatingPartial(modelBuilder);

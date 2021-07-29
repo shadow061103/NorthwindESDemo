@@ -17,6 +17,8 @@ using Microsoft.OpenApi.Models;
 using NorthwindDemo.Repository.Implements;
 using NorthwindDemo.Repository.Interfaces;
 using NorthwindDemo.Repository.Models.Context;
+using NorthwindDemo.Service.Implements;
+using NorthwindDemo.Service.Interfaces;
 using NorthwindDemo.Task.Infrastructure.Extensions;
 using NorthwindDemo.Task.Infrastructure.HangfireMisc;
 using System;
@@ -114,6 +116,9 @@ namespace NorthwindDemo.Task
 
             // AutoMapper
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            //DI
+            services.AddScoped<IOrderServices, OrderServices>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

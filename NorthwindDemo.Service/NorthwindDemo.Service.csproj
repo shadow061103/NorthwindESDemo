@@ -13,9 +13,4 @@
     <ProjectReference Include="..\NorthwindDemo.Repository\NorthwindDemo.Repository.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Implements\" />
-    <Folder Include="Interfaces\" />
-  </ItemGroup>
-
 </Project>

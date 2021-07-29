@@ -1,23 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NorthwindDemo.Common.Attribute;
-using NorthwindDemo.Repository.Interfaces;
-using NorthwindDemo.Repository.Models.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using NorthwindDemo.Service.Interfaces;
 
 namespace NorthwindDemo.Task.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class TestController :  ControllerBase
+    public class TestController : ControllerBase
     {
-        private readonly IUnitOfWork _uow;
+        private readonly IOrderServices _orderServices;
 
-        public TestController(IUnitOfWork uow)
+        public TestController(IOrderServices orderServices)
         {
-            _uow = uow;
+            _orderServices = orderServices;
         }
 
         /// <summary>
@@ -28,7 +23,7 @@ namespace NorthwindDemo.Task.Controllers
         [CoreProfilingAsyncAttribute("TestController.Get")]
         public IActionResult Get()
         {
-          var temp= _uow.GetRepository<Employees>().Get();
+            var temp = _orderServices.Get();
             return Ok(temp);
         }
     }

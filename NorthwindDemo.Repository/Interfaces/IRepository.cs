@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Query;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 
 namespace NorthwindDemo.Repository.Interfaces
 {
@@ -23,10 +23,6 @@ namespace NorthwindDemo.Repository.Interfaces
         /// <summary>
         /// 取得多筆資料
         /// </summary>
-        /// <param name="predicate">查詢條件</param>
-        /// <param name="orderBy">排序</param>
-        /// <param name="include">包含關聯資料</param>
-        /// <param name="disableTracking">是否關閉 tracking</param>
         /// <returns></returns>
         IQueryable<TEntity> Get();
 
@@ -36,6 +32,19 @@ namespace NorthwindDemo.Repository.Interfaces
         /// <param name="predicate">The predicate.</param>
         /// <returns></returns>
         TEntity Get(Expression<Func<TEntity, bool>> predicate);
+
+        /// <summary>
+        /// 取得資料
+        /// </summary>
+        /// <param name="predicate">查詢條件</param>
+        /// <param name="orderBy">排序</param>
+        /// <param name="include">包含關聯資料</param>
+        /// <param name="disableTracking">是否關閉 tracking</param>
+        /// <returns></returns>
+        IQueryable<TEntity> Get(Expression<Func<TEntity, bool>> predicate = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null,
+            bool disableTracking = true);
 
         /// <summary>
         /// 刪除實體
