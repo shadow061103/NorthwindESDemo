@@ -137,11 +137,11 @@ namespace NorthwindDemo.Repository.Implements
             var orders = new List<OrdersESModel>();
 
             var queryContainer = new List<QueryContainer>();
-            queryContainer.Append(EsCommandHelper.GetShipCountyContainer(searchESModel.ShipCity));
-            queryContainer.Append(EsCommandHelper.GetFreightMinContainer(searchESModel.FreightMin));
-            queryContainer.Append(EsCommandHelper.GetFreightMaxContainer(searchESModel.FreightMax));
-            queryContainer.Append(EsCommandHelper.GetShipNameContainer(searchESModel.ShipName));
-            queryContainer.Append(EsCommandHelper.GetOrderDateContainer(searchESModel.StartOrderDate, searchESModel.EndtOrderDate));
+            queryContainer.Add(EsCommandHelper.GetShipCountyContainer(searchESModel.ShipCity));
+            queryContainer.Add(EsCommandHelper.GetFreightMinContainer(searchESModel.FreightMin));
+            queryContainer.Add(EsCommandHelper.GetFreightMaxContainer(searchESModel.FreightMax));
+            queryContainer.Add(EsCommandHelper.GetShipNameContainer(searchESModel.ShipName));
+            queryContainer.Add(EsCommandHelper.GetOrderDateContainer(searchESModel.StartOrderDate, searchESModel.EndtOrderDate));
 
             var query = new BoolQuery { Filter = queryContainer };
 
