@@ -26,5 +26,12 @@ namespace NorthwindDemo.Service.Interfaces
         /// <param name="orderIds">The order ids.</param>
         /// <returns></returns>
         Task<bool> Delete(IEnumerable<int> orderIds);
+
+        /// <summary>
+        /// 依編號取得訂單
+        /// </summary>
+        /// <param name="orderId">The order identifier.</param>
+        /// <returns></returns>
+        Task<OrdersDto> Get(int orderId);
     }
 }

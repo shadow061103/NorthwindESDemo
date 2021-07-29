@@ -26,5 +26,12 @@ namespace NorthwindDemo.Repository.Interfaces
         /// <param name="orderIds">The order ids.</param>
         /// <returns></returns>
         Task<bool> BulkDelete(IEnumerable<int> orderIds);
+
+        /// <summary>
+        /// 依編號取得訂單
+        /// </summary>
+        /// <param name="orderId">The order identifier.</param>
+        /// <returns></returns>
+        Task<OrdersESModel> GetAsync(int orderId);
     }
 }

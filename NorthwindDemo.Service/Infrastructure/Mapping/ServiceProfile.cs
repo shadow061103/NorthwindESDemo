@@ -25,21 +25,23 @@ namespace NorthwindDemo.Service.Infrastructure.Mapping
 
             this.CreateMap<Employees, EmployeesDto>();
 
-            this.CreateMap<OrdersDto, OrdersESModel>();
+            //ES
 
-            this.CreateMap<OrderDetailsDto, OrderDetailsESModel>();
+            this.CreateMap<OrdersDto, OrdersESModel>().ReverseMap();
 
-            this.CreateMap<ProductsDto, ProductsESModel>();
+            this.CreateMap<OrderDetailsDto, OrderDetailsESModel>().ReverseMap();
 
-            this.CreateMap<CategoriesDto, CategoriesESModel>();
+            this.CreateMap<ProductsDto, ProductsESModel>().ReverseMap();
 
-            this.CreateMap<SuppliersDto, SuppliersESModel>();
+            this.CreateMap<CategoriesDto, CategoriesESModel>().ReverseMap();
 
-            this.CreateMap<ShippersDto, ShippersESModel>();
+            this.CreateMap<SuppliersDto, SuppliersESModel>().ReverseMap();
 
-            this.CreateMap<CustomersDto, CustomersESModel>();
+            this.CreateMap<ShippersDto, ShippersESModel>().ReverseMap();
 
-            this.CreateMap<EmployeesDto, EmployeesESModel>();
+            this.CreateMap<CustomersDto, CustomersESModel>().ReverseMap();
+
+            this.CreateMap<EmployeesDto, EmployeesESModel>().ReverseMap();
         }
     }
 }

@@ -2,6 +2,7 @@
 using NorthwindDemo.Repository.Interfaces;
 using NorthwindDemo.Repository.Models.ES;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace NorthwindDemo.Repository.Implements
@@ -101,6 +102,27 @@ namespace NorthwindDemo.Repository.Implements
             }
 
             return response.IsValid;
+        }
+
+        /// <summary>
+        /// 依編號取得訂單
+        /// </summary>
+        /// <param name="orderId">The order identifier.</param>
+        /// <returns></returns>
+        public async Task<OrdersESModel> GetAsync(int orderId)
+        {
+            var searchRequest = new SearchRequest<OrdersESModel>(index: _index)
+            {
+                Query = new TermQuery
+                {
+                    Field = Infer.Field<OrdersESModel>(c => c.OrderId),
+                    Value = orderId
+                }
+            };
+
+            var searchResponse = await _elasticClient.SearchAsync<OrdersESModel>(s => searchRequest);
+
+            return searchResponse.Documents.FirstOrDefault();
         }
     }
 }

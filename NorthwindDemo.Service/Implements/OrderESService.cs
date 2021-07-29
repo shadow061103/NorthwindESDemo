@@ -73,5 +73,19 @@ namespace NorthwindDemo.Service.Implements
 
             return await _orderESRepository.BulkDelete(orderIds);
         }
+
+        /// <summary>
+        /// 依編號取得訂單
+        /// </summary>
+        /// <param name="orderId">The order identifier.</param>
+        /// <returns></returns>
+        public async Task<OrdersDto> Get(int orderId)
+        {
+            var orders = await _orderESRepository.GetAsync(orderId);
+
+            var orderDto = this._mapper.Map<OrdersDto>(orders);
+
+            return orderDto;
+        }
     }
 }
