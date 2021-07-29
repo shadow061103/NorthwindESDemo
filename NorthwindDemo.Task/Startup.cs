@@ -19,6 +19,8 @@ using NorthwindDemo.Service.Implements;
 using NorthwindDemo.Service.Interfaces;
 using NorthwindDemo.Task.Infrastructure.Extensions;
 using NorthwindDemo.Task.Infrastructure.HangfireMisc;
+using NorthwindDemo.Task.Interfaces;
+using NorthwindDemo.Task.Jobs;
 using System;
 using System.IO;
 using System.Linq;
@@ -115,6 +117,10 @@ namespace NorthwindDemo.Task
 
             //DI
             services.AddScoped<IOrderServices, OrderServices>();
+            services.AddScoped<IOrderESRepository, OrderESRepository>();
+            services.AddScoped<IOrderESService, OrderESService>();
+            services.AddScoped<IOrdersESJob, OrdersESJob>();
+            services.AddSingleton<IHangfireJobTrigger, HangfireJobTrigger>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

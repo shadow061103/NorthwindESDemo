@@ -6,10 +6,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using NorthwindDemo.Api.Infrastructure.Extensions;
+using NorthwindDemo.Repository.Implements;
+using NorthwindDemo.Repository.Interfaces;
 using NorthwindDemo.Service.Implements;
 using NorthwindDemo.Service.Interfaces;
 using System;
 using System.IO;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace NorthwindDemo.Api
 {
@@ -25,7 +29,15 @@ namespace NorthwindDemo.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers()
+                .AddJsonOptions(options =>
+            {
+                //ViewModel 與 Parameter 顯示為小駝峰命名
+                options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+
+                //列舉顯示為註解文字
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+            });
 
             #region swagger
 
@@ -56,6 +68,8 @@ namespace NorthwindDemo.Api
 
             //DI
             services.AddScoped<IOrderServices, OrderServices>();
+            services.AddScoped<IOrderESRepository, OrderESRepository>();
+            services.AddScoped<IOrderESService, OrderESService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
