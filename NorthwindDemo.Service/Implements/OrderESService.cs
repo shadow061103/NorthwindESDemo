@@ -3,6 +3,7 @@ using NorthwindDemo.Common.Attribute;
 using NorthwindDemo.Repository.Interfaces;
 using NorthwindDemo.Repository.Models.ES;
 using NorthwindDemo.Service.Interfaces;
+using NorthwindDemo.Service.Models;
 using NorthwindDemo.Service.Models.Dtos;
 using System.Collections.Generic;
 using System.Linq;
@@ -86,6 +87,22 @@ namespace NorthwindDemo.Service.Implements
             var orderDto = this._mapper.Map<OrdersDto>(orders);
 
             return orderDto;
+        }
+
+        /// <summary>
+        /// 依條件查詢訂單
+        /// </summary>
+        /// <param name="searchOrderDto">The search order dto.</param>
+        /// <returns></returns>
+        public async Task<IEnumerable<OrdersDto>> Get(SearchOrderDto searchOrderDto)
+        {
+            var searchESModel = this._mapper.Map<SearchESModel>(searchOrderDto);
+
+            var orders = await _orderESRepository.GetAsync(searchESModel);
+
+            var ordersDto = this._mapper.Map<IEnumerable<OrdersDto>>(orders);
+
+            return ordersDto;
         }
     }
 }

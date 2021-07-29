@@ -1,4 +1,5 @@
-﻿using NorthwindDemo.Service.Models.Dtos;
+﻿using NorthwindDemo.Service.Models;
+using NorthwindDemo.Service.Models.Dtos;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -33,5 +34,12 @@ namespace NorthwindDemo.Service.Interfaces
         /// <param name="orderId">The order identifier.</param>
         /// <returns></returns>
         Task<OrdersDto> Get(int orderId);
+
+        /// <summary>
+        /// 依條件查詢訂單
+        /// </summary>
+        /// <param name="searchOrderDto">The search order dto.</param>
+        /// <returns></returns>
+        Task<IEnumerable<OrdersDto>> Get(SearchOrderDto searchOrderDto);
     }
 }

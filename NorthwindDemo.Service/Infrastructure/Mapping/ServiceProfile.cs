@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using NorthwindDemo.Repository.Models.Entities;
 using NorthwindDemo.Repository.Models.ES;
+using NorthwindDemo.Service.Models;
 using NorthwindDemo.Service.Models.Dtos;
 
 namespace NorthwindDemo.Service.Infrastructure.Mapping
@@ -42,6 +43,8 @@ namespace NorthwindDemo.Service.Infrastructure.Mapping
             this.CreateMap<CustomersDto, CustomersESModel>().ReverseMap();
 
             this.CreateMap<EmployeesDto, EmployeesESModel>().ReverseMap();
+
+            this.CreateMap<SearchOrderDto, SearchESModel>();
         }
     }
 }

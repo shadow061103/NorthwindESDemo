@@ -33,5 +33,12 @@ namespace NorthwindDemo.Repository.Interfaces
         /// <param name="orderId">The order identifier.</param>
         /// <returns></returns>
         Task<OrdersESModel> GetAsync(int orderId);
+
+        /// <summary>
+        ///依條件查詢訂單
+        /// </summary>
+        /// <param name="searchESModel">The search es model.</param>
+        /// <returns></returns>
+        Task<IEnumerable<OrdersESModel>> GetAsync(SearchESModel searchESModel);
     }
 }

@@ -19,10 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Infrastructure\Mapping\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Update="coreprofiler.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

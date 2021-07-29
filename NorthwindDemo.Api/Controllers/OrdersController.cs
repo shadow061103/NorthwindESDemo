@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using NorthwindDemo.Api.Models.Parameter;
 using NorthwindDemo.Common.Attribute;
 using NorthwindDemo.Service.Interfaces;
-using System.Linq;
+using NorthwindDemo.Service.Models;
 using System.Threading.Tasks;
 
 namespace NorthwindDemo.Api.Controllers
@@ -14,22 +16,13 @@ namespace NorthwindDemo.Api.Controllers
 
         private readonly IOrderESService _orderESService;
 
-        public OrdersController(IOrderServices orderServices, IOrderESService orderESService)
+        private readonly IMapper _mapper;
+
+        public OrdersController(IOrderServices orderServices, IOrderESService orderESService, IMapper mapper)
         {
             _orderServices = orderServices;
             _orderESService = orderESService;
-        }
-
-        /// <summary>
-        /// Gets this instance.
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        [CoreProfilingAsync("OrdersController.Get")]
-        public async Task<IActionResult> Get()
-        {
-            var temp = await _orderServices.Get();
-            return Ok(temp.FirstOrDefault());
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -44,6 +37,17 @@ namespace NorthwindDemo.Api.Controllers
             var temp = await _orderESService.Get(orderId);
 
             return Ok(temp);
+        }
+
+        [HttpGet]
+        [CoreProfilingAsync("OrdersController.GetByRule")]
+        public async Task<IActionResult> GetByRule([FromQuery] SearchOrderParameter parameter)
+        {
+            var para = this._mapper.Map<SearchOrderDto>(parameter);
+
+            var orders = await _orderESService.Get(para);
+
+            return Ok(orders);
         }
     }
 }

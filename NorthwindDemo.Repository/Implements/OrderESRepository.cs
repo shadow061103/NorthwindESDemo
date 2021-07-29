@@ -1,4 +1,6 @@
 ﻿using Nest;
+using NorthwindDemo.Common.Enum;
+using NorthwindDemo.Repository.Infrastructure.Helpers;
 using NorthwindDemo.Repository.Interfaces;
 using NorthwindDemo.Repository.Models.ES;
 using System.Collections.Generic;
@@ -123,6 +125,43 @@ namespace NorthwindDemo.Repository.Implements
             var searchResponse = await _elasticClient.SearchAsync<OrdersESModel>(s => searchRequest);
 
             return searchResponse.Documents.FirstOrDefault();
+        }
+
+        /// <summary>
+        ///依條件查詢訂單
+        /// </summary>
+        /// <param name="searchESModel">The search es model.</param>
+        /// <returns></returns>
+        public async Task<IEnumerable<OrdersESModel>> GetAsync(SearchESModel searchESModel)
+        {
+            var orders = new List<OrdersESModel>();
+
+            var queryContainer = new List<QueryContainer>();
+            queryContainer.Append(EsCommandHelper.GetShipCountyContainer(searchESModel.ShipCity));
+            queryContainer.Append(EsCommandHelper.GetFreightMinContainer(searchESModel.FreightMin));
+            queryContainer.Append(EsCommandHelper.GetFreightMaxContainer(searchESModel.FreightMax));
+            queryContainer.Append(EsCommandHelper.GetShipNameContainer(searchESModel.ShipName));
+            queryContainer.Append(EsCommandHelper.GetOrderDateContainer(searchESModel.StartOrderDate, searchESModel.EndtOrderDate));
+
+            var query = new BoolQuery { Filter = queryContainer };
+
+            var searchRequest = new SearchRequest<OrdersESModel>(index: _index)
+            {
+                Source = new SourceFilter
+                {
+                    Includes = "*"
+                },
+                Query = query,
+                Sort = EsSortHelper.GetOrder(OrderField.Default),
+                From = 0,
+                Size = 5000
+            };
+
+            var searchResponse = await _elasticClient.SearchAsync<OrdersESModel>(s => searchRequest);
+
+            orders.AddRange(searchResponse.Documents);
+
+            return orders;
         }
     }
 }
