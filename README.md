@@ -1,14 +1,14 @@
 # NorthwindESDemo
 ### 前置作業
-- 在專案跟目錄執行powershell或cmd \r\t
+- 在專案跟目錄執行powershell或cmd 
 ```
 //建elasticsearch
 docker-compose up -d
 
 docker run --name redis-lab -p 6379:6379 -d redis
 ```
-- 打開SSMS使用localDB新增查詢，執行Database\script.sql 建立Northwind資料庫\r\t
-- 新增Hangfire資料庫\r\t
+- 打開SSMS使用localDB新增查詢，執行Database\script.sql 建立Northwind資料庫
+- 新增Hangfire資料庫
 ## 專案說明
 ### Hangfire
 - 建立一個定時啟動的排程工作
