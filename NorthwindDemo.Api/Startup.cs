@@ -8,6 +8,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using NorthwindDemo.Api.Infrastructure.Extensions;
+using NorthwindDemo.Common;
+using NorthwindDemo.Common.Caching;
+using NorthwindDemo.Repository.Decorators.MemoryCache;
+using NorthwindDemo.Repository.Decorators.Redis;
 using NorthwindDemo.Repository.Implements;
 using NorthwindDemo.Repository.Interfaces;
 using NorthwindDemo.Repository.Models.Context;
@@ -67,7 +71,9 @@ namespace NorthwindDemo.Api
 
             // AutoMapper
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            services.AddEntityFrameworkSqlServer()
+
+            //EF core
+            services//.AddEntityFrameworkSqlServer()
                    .AddDbContext<DbContext, NorthwindContext>(options => options
                     .UseLoggerFactory(_loggerFactory)
                     .UseSqlServer(Configuration.GetConnectionString("Northwind")));
@@ -77,10 +83,37 @@ namespace NorthwindDemo.Api
 
             services.AddElasticsearch(Configuration);
 
+            #region 快取
+
+            var cacheDecoratorSetingsSection = this.Configuration.GetSection(CacheDecoratorSettingsOptions.SectionName);
+            services.Configure<CacheDecoratorSettingsOptions>(cacheDecoratorSetingsSection);
+
+            services.AddMemoryCache(options =>
+            {
+                options.ExpirationScanFrequency = TimeSpan.FromMinutes(5);
+                options.CompactionPercentage = 0.02d;
+            });
+
+            services.AddRedisCache();
+
+            // CacheProviderResolver
+            services.AddSingleton<ICacheProviderResolver, CacheProviderResolver>();
+
+            // IMemoryCacheRemoveHelper
+            services.AddScoped<IMemoryCacheRemoveHelper, MemoryCacheRemoveHelper>();
+
+            // IRedisCacheRemoveHelper
+            services.AddScoped<IRedisCacheHelper, RedisCacheHelper>();
+
+            #endregion 快取
+
             //DI
+            services.AddScoped<IOrderESRepository, OrderESRepository>()
+                .Decorate<IOrderESRepository, RedisOrderRepository>()
+                .Decorate<IOrderESRepository, CacheOrderRepository>();
+
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IOrderServices, OrderServices>();
-            services.AddScoped<IOrderESRepository, OrderESRepository>();
             services.AddScoped<IOrderESService, OrderESService>();
         }
 

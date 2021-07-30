@@ -1,0 +1,11 @@
+{
+  "CacheDecoratorSettings": {
+    "CacheProviders": [ "MemoryCacheProvider", "RedisCacheProvider" ],
+    "CacheDecorators": [
+      {
+        "Declaration": "IOrderESRepository",
+        "Implements": [ "OrderESRepository", "RedisOrderRepository", "CacheOrderRepository" ]
+      }
+    ]
+  }
+}
