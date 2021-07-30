@@ -12,15 +12,12 @@ namespace NorthwindDemo.Api.Controllers
     [Route("[controller]/[action]")]
     public class OrdersController : ControllerBase
     {
-        private readonly IOrderServices _orderServices;
-
         private readonly IOrderESService _orderESService;
 
         private readonly IMapper _mapper;
 
-        public OrdersController(IOrderServices orderServices, IOrderESService orderESService, IMapper mapper)
+        public OrdersController(IOrderESService orderESService, IMapper mapper)
         {
-            _orderServices = orderServices;
             _orderESService = orderESService;
             _mapper = mapper;
         }
