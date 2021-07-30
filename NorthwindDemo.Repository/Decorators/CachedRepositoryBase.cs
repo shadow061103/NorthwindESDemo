@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using NorthwindDemo.Common;
 using NorthwindDemo.Common.Caching;
+using NorthwindDemo.Common.Enum;
 using NorthwindDemo.Common.Extensions;
 using System;
 using System.Linq;

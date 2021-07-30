@@ -1,5 +1,5 @@
 ﻿using NorthwindDemo.Common.Attribute;
-using NorthwindDemo.Common.Caching;
+using NorthwindDemo.Common.Enum;
 
 namespace NorthwindDemo.Common.Extensions
 {
@@ -8,9 +8,9 @@ namespace NorthwindDemo.Common.Extensions
         public static string EnumDescription(this System.Enum value)
         {
             var data = typeof(CacheTypeEnum).GetField(value.ToString());
-            var attr = System.Attribute.GetCustomAttribute(data, typeof(EnumDescriptionAttribute));
+            var attr = System.Attribute.GetCustomAttribute(data, typeof(CacheDescriptionAttribute));
 
-            return ((EnumDescriptionAttribute)attr).Description;
+            return ((CacheDescriptionAttribute)attr).Description;
         }
     }
 }

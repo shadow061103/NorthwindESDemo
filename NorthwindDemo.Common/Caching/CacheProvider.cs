@@ -164,7 +164,7 @@ namespace NorthwindDemo.Common.Caching
 
         protected TimeSpan GetDefaultPolicy()
         {
-            return CacheUtility.GetCacheItemExpiration(this.DefaultDuration);
+            return TimeSpan.FromSeconds(DefaultDuration.TotalSeconds);
         }
 
         #endregion Expiration Policy Helpers

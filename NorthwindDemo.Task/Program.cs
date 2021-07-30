@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 
 namespace NorthwindDemo.Task
@@ -16,11 +15,6 @@ namespace NorthwindDemo.Task
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                })
-                .ConfigureAppConfiguration((hostingContext, config) =>
-                {
-                    // CacheDecoratorSettings
-                    config.AddJsonFile("CacheDecoratorSettings.json", optional: true, reloadOnChange: true);
                 });
     }
 }

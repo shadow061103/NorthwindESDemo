@@ -2,9 +2,11 @@
 using NorthwindDemo.Common;
 using NorthwindDemo.Common.Attribute;
 using NorthwindDemo.Common.Caching;
+using NorthwindDemo.Common.Enum;
 using NorthwindDemo.Repository.Interfaces;
 using NorthwindDemo.Repository.Models.Cache;
 using NorthwindDemo.Repository.Models.ES;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -75,7 +77,7 @@ namespace NorthwindDemo.Repository.Decorators.MemoryCache
             var cacheItem = await this.GetOrAddCacheItemAsync
                 (
                     string.Format(CacheKey.NorthwindGet, orderId),
-                    CacheUtility.GetCacheItemExpiration5Min(),
+                    TimeSpan.FromMinutes(5),
                     async () =>
                     {
                         var result = await this._orderESRepository.GetAsync(orderId);

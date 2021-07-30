@@ -23,9 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="CacheDecoratorSettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Update="coreprofiler.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

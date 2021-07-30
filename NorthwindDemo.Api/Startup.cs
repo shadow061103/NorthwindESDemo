@@ -73,6 +73,8 @@ namespace NorthwindDemo.Api
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             //EF core
+            //因為會用到memory cache且設定size limit 會跟MemoryCache的時間衝突
+            //這裡不用AddEntityFrameworkSqlServer
             services//.AddEntityFrameworkSqlServer()
                    .AddDbContext<DbContext, NorthwindContext>(options => options
                     .UseLoggerFactory(_loggerFactory)
@@ -88,12 +90,14 @@ namespace NorthwindDemo.Api
             var cacheDecoratorSetingsSection = this.Configuration.GetSection(CacheDecoratorSettingsOptions.SectionName);
             services.Configure<CacheDecoratorSettingsOptions>(cacheDecoratorSetingsSection);
 
+            //Memory Cache
             services.AddMemoryCache(options =>
             {
                 options.ExpirationScanFrequency = TimeSpan.FromMinutes(5);
                 options.CompactionPercentage = 0.02d;
             });
 
+            //Redis
             services.AddRedisCache();
 
             // CacheProviderResolver

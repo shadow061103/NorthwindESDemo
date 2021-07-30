@@ -1,6 +1,6 @@
 ﻿using NorthwindDemo.Common.Attribute;
 
-namespace NorthwindDemo.Common.Caching
+namespace NorthwindDemo.Common.Enum
 {
     /// <summary>
     /// Enum CacheTypeEnum
@@ -10,19 +10,19 @@ namespace NorthwindDemo.Common.Caching
         /// <summary>
         /// None - NullCacheProvider
         /// </summary>
-        [EnumDescription("NullCacheProvider")]
+        [CacheDescription("NullCacheProvider")]
         None = 0,
 
         /// <summary>
         /// Memory - MemoryCacheProvider
         /// </summary>
-        [EnumDescription("MemoryCacheProvider")]
+        [CacheDescription("MemoryCacheProvider")]
         Memory = 1,
 
         /// <summary>
         /// Redis - RedisCacheProvider
         /// </summary>
-        [EnumDescription("RedisCacheProvider")]
+        [CacheDescription("RedisCacheProvider")]
         Redis = 2
     }
 }

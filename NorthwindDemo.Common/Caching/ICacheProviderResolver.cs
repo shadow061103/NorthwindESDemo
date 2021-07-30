@@ -1,4 +1,6 @@
-﻿namespace NorthwindDemo.Common.Caching
+﻿using NorthwindDemo.Common.Enum;
+
+namespace NorthwindDemo.Common.Caching
 {
     /// <summary>
     /// Interface ICacheProviderResolver
