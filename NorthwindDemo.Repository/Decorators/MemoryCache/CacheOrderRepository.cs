@@ -17,7 +17,6 @@ namespace NorthwindDemo.Repository.Decorators.MemoryCache
         private readonly IOrderESRepository _orderESRepository;
 
         public CacheOrderRepository(IOptions<CacheDecoratorSettingsOptions> options,
-
                                    ICacheProviderResolver cacheProviderResolver,
                                    IOrderESRepository orderESRepository)
             : base(options, cacheProviderResolver)
